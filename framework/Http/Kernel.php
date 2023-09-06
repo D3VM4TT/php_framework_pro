@@ -2,37 +2,29 @@
 
 namespace Framework\Http;
 
+use App\Controller\HomeController;
 use FastRoute\RouteCollector;
 use function FastRoute\simpleDispatcher;
+
 
 class Kernel
 {
 
     public function handle(Request $request): Response
     {
-
         $dispatcher = simpleDispatcher(function(RouteCollector $routeCollector) {
-            $routeCollector->addRoute('GET', '/', function() {
-                return new Response(
-                    body: '<h1>Hello World<h/1>',
-                    status: 200,
-                    headers: ['Content-Type' => 'text/html']
-                );
-            });
-
-            $routeCollector->addRoute('GET', '/posts/{id:\d+}', function($routeParams) {
-                return new Response(
-                    body: "<h1>Post #{$routeParams['id']}<h/1>",
-                    status: 200,
-                    headers: ['Content-Type' => 'text/html']
-                );
-            });
+            $routes = include APP_ROOT . '/routes/web.php';
+            foreach ($routes as $route) {
+                $routeCollector->addRoute(...$route);
+            }
         });
 
         $routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getPath());
 
-        [$status, $handler, $routeParams] = $routeInfo;
+        [$status, [$controller, $method], $routeParams] = $routeInfo;
 
-        return $handler($routeParams);
+        $response = call_user_func_array([new $controller, $method], $routeParams);
+
+        return $response;
     }
 }
