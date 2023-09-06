@@ -1,8 +1,11 @@
 <?php
 
+use Framework\Http\Request;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// recieve the request
+// receive the request
+$request = Request::createFromGlobals();
 
 // perform some logic
 
