@@ -23,4 +23,16 @@ readonly class Request
             $_FILES,
             $_SERVER);
     }
+
+    public function getPath(): string
+    {
+        return parse_url($this->serverParams['REQUEST_URI'])['path'];
+    }
+
+    public function getMethod()
+    {
+        return $this->serverParams['REQUEST_METHOD'];
+    }
+
+
 }

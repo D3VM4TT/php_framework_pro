@@ -20,7 +20,7 @@ class Kernel
                 );
             });
 
-            $routeCollector->addRoute('GET',  '/posts/{id:\d+}', function($routeParams) {
+            $routeCollector->addRoute('GET', '/posts/{id:\d+}', function($routeParams) {
                 return new Response(
                     body: "<h1>Post #{$routeParams['id']}<h/1>",
                     status: 200,
@@ -29,11 +29,10 @@ class Kernel
             });
         });
 
-        $routeInfo = $dispatcher->dispatch($request->serverParams['REQUEST_METHOD'], $request->serverParams['REQUEST_URI']);
+        $routeInfo = $dispatcher->dispatch($request->getMethod(), $request->getPath());
 
         [$status, $handler, $routeParams] = $routeInfo;
 
         return $handler($routeParams);
-
     }
 }
