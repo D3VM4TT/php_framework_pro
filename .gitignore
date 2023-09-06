@@ -1,0 +1,10 @@
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/php_framework_pro.iml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
+/vendor/
+/.idea/codeception.xml
+/.idea/phpspec.xml
+/.idea/phpunit.xml
